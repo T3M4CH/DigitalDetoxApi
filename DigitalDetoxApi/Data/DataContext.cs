@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-public class DataContext : IdentityDbContext<IdentityUser, IdentityRole, string>
+namespace DigitalDetoxApi.Data;
+
+public class DataContext : IdentityDbContext<AppUser>
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
