@@ -36,7 +36,12 @@ public class AccountController : BaseApiController
         
         foreach (var identityError in result.Errors)
         {
-            Console.WriteLine("OSHIBKA !!!! : " + identityError.Description);
+            return BadRequest(identityError.Description);
+        }
+
+        if (result.Succeeded)
+        {
+            return Ok();
         }
 
         return BadRequest();
