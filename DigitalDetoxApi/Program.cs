@@ -20,7 +20,7 @@ builder.Services.AddDefaultIdentity<AppUser>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
     options.Password.RequiredLength = 5;
-}).AddEntityFrameworkStores<DataContext>();
+}).AddUserManager<UserManager<AppUser>>().AddEntityFrameworkStores<DataContext>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -28,8 +28,6 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.AllowedForNewUsers = true;
 });
-
-builder.Services.AddScoped<UserManager<AppUser>>();
 
 var app = builder.Build();
 
