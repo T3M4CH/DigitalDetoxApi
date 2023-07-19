@@ -26,4 +26,6 @@ public static class UserManagerExtensions
 
         return users.FirstOrDefault(user => user.EmailConfirmed);
     }
+    
+    
 }

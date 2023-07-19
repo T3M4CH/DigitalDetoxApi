@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using API.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using DigitalDetoxApi.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -75,12 +76,13 @@ public class AccountController : BaseApiController
     [Authorize, HttpGet("GetBalance")]
     public async Task<ActionResult> GetBalance()
     {
-        var sourceUser = User;
-        foreach (var sourceUserClaim in sourceUser.Claims)
+        var user = await _userManager.FindByNameAsync(User.GetUsername());
+
+        if (user != null)
         {
-            Console.WriteLine(sourceUserClaim.Value);
+            return Ok(new { hello = $"Здравствуй, мальчик Бананан {user}, твой баланс {user.Balance}" });
         }
 
-        return Ok(new {hello = "Здравствуй, мальчик Бананан"});
+        return BadRequest("Пользователь не найден");
     }
 }
