@@ -80,7 +80,7 @@ public class AccountController : BaseApiController
 
         if (user != null)
         {
-            return Ok(new { hello = $"Здравствуй, мальчик Бананан {user}, твой баланс {user.Balance}" });
+            return Ok(new { hello = $"{user}, твой баланс {user.Balance}" });
         }
 
         return BadRequest("Пользователь не найден");
