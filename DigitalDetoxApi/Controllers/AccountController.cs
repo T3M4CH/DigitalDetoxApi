@@ -80,7 +80,26 @@ public class AccountController : BaseApiController
 
         if (user != null)
         {
-            return Ok(new { hello = $"{user}, твой баланс {user.Balance}" });
+            return Ok(user.Balance);
+        }
+
+        return BadRequest("Пользователь не найден");
+    }
+
+    [Authorize, HttpGet("Pay")]
+    public async Task<ActionResult> Pay(int value)
+    {
+        var user = await _userManager.FindByNameAsync(User.GetUsername());
+
+        if (user != null)
+        {
+            if (user.Balance >= value)
+            {
+                user.Balance -= value;
+                return Ok(user.Balance);
+            }
+
+            return BadRequest("Недостаточно средств");
         }
 
         return BadRequest("Пользователь не найден");
