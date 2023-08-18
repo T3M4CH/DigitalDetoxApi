@@ -86,7 +86,7 @@ public class AccountController : BaseApiController
         return BadRequest("Пользователь не найден");
     }
 
-    [Authorize, HttpGet("Pay")]
+    [Authorize, HttpPost("Pay")]
     public async Task<ActionResult> Pay(int value)
     {
         var user = await _userManager.FindByNameAsync(User.GetUsername());
@@ -100,6 +100,20 @@ public class AccountController : BaseApiController
             }
 
             return BadRequest("Недостаточно средств");
+        }
+
+        return BadRequest("Пользователь не найден");
+    }
+
+    [Authorize, HttpPost("Add")]
+    public async Task<ActionResult> Add(int value)
+    {
+        var user = await _userManager.FindByNameAsync(User.GetUsername());
+
+        if (user != null)
+        {
+            user.Balance += value;
+            return Ok(user.Balance);
         }
 
         return BadRequest("Пользователь не найден");
