@@ -96,7 +96,14 @@ public class AccountController : BaseApiController
             if (user.Balance >= value)
             {
                 user.Balance -= value;
-                return Ok(user.Balance);
+                var task = await _userManager.UpdateAsync(user);
+
+                if (task.Succeeded)
+                {
+                    return Ok(user.Balance);
+                }
+
+                return BadRequest(task.Errors);
             }
 
             return BadRequest("Недостаточно средств");
@@ -113,7 +120,15 @@ public class AccountController : BaseApiController
         if (user != null)
         {
             user.Balance += value;
-            return Ok(user.Balance);
+
+            var task = await _userManager.UpdateAsync(user);
+
+            if (task.Succeeded)
+            {
+                return Ok(user.Balance);
+            }
+
+            return BadRequest(task.Errors);
         }
 
         return BadRequest("Пользователь не найден");
