@@ -23,6 +23,12 @@ public class AccountController : BaseApiController
     private readonly SignInManager<AppUser> _signInManager;
     private readonly ITokenService _tokenService;
 
+    [HttpGet, AllowAnonymous]
+    public ActionResult CheckConnection()
+    {
+        return Ok("Connected");
+    }
+
     [HttpPost("Register"), AllowAnonymous]
     public async Task<ActionResult> Register(RegisterDto registerDto)
     {
